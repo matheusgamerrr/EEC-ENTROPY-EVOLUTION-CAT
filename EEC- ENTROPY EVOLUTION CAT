@@ -1,0 +1,237 @@
+index.html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Entropy Evolution Cats</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+color:white;
+text-align:center;
+background:#000;
+}
+
+button{
+padding:10px;
+margin:5px;
+background:#00c3ff;
+border:none;
+font-weight:bold;
+cursor:pointer;
+border-radius:8px;
+transition:0.2s;
+box-shadow:0 0 10px rgba(0,195,255,0.5);
+}
+
+button:hover{
+transform:scale(1.08);
+box-shadow:0 0 20px rgba(0,195,255,1);
+}
+
+button:active{
+transform:scale(0.95);
+}
+
+.area{
+display:none;
+min-height:100vh;
+padding:20px;
+}
+
+.area.active{display:block;}
+
+.card{
+background:rgba(0,0,0,0.6);
+margin:10px auto;
+padding:10px;
+width:260px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Entropy Cats</h1>
+<h2>Entropya: <span id="points">0</span></h2>
+<h3>Por segundo: <span id="ps">0</span></h3>
+
+<button onclick="clickGain()">Coletar</button>
+
+<br>
+
+<button onclick="show('space')">Espaço</button>
+<button onclick="show('micro')">Micro</button>
+<button onclick="show('water')">Água</button>
+<button onclick="show('land')">Terra</button>
+<button onclick="show('cats')">Gatos</button>
+
+<!-- 🌌 ESPAÇO -->
+<div id="space" class="area active">
+
+<div class="card">
+<p>Big Bang</p>
+<p>Custo: <span id="bbCost">50</span></p>
+<button onclick="buyBB()">Comprar</button>
+</div>
+
+<div class="card">
+<p>Sol</p>
+<p>Custo: <span id="sunCost">200</span></p>
+<button onclick="buySun()">Comprar</button>
+</div>
+
+</div>
+
+<!-- 🔬 MICRO -->
+<div id="micro" class="area">
+
+<div class="card">
+<p>DNA</p>
+<p>Custo: <span id="dnaCost">1000</span></p>
+<button onclick="buyDNA()">Comprar</button>
+</div>
+
+</div>
+
+<!-- 💧 ÁGUA -->
+<div id="water" class="area">
+
+<div class="card">
+<p>Esponja</p>
+<p>Custo: <span id="spCost">5000</span></p>
+<button onclick="buySponge()">Comprar</button>
+</div>
+
+</div>
+
+<!-- 🌍 TERRA -->
+<div id="land" class="area">
+
+<div class="card">
+<p>Peixes</p>
+<p>Custo: <span id="fishCost">20000</span></p>
+<button onclick="buyFish()">Comprar</button>
+</div>
+
+</div>
+
+<!-- 🐱 GATOS -->
+<div id="cats" class="area">
+
+<div class="card">
+<p>Felinos</p>
+<p>Custo: <span id="catCost">100000</span></p>
+<button onclick="buyCat()">Comprar</button>
+</div>
+
+</div>
+
+<script>
+let points=0;
+let ps=0;
+
+/* custos */
+let bbCost=50;
+let sunCost=200;
+let dnaCost=1000;
+let spCost=5000;
+let fishCost=20000;
+let catCost=100000;
+
+/* evitar erro de botão quebrar jogo */
+function safe(fn){
+try{fn();}catch(e){}
+}
+
+/* base */
+function clickGain(){
+points++;
+update();
+}
+
+/* trocar área */
+function show(id){
+document.querySelectorAll(".area").forEach(a=>a.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* espaço */
+function buyBB(){
+if(points>=bbCost){
+points-=bbCost;
+ps+=1;
+bbCost*=1.5;
+update();
+}
+}
+
+function buySun(){
+if(points>=sunCost){
+points-=sunCost;
+ps+=5;
+sunCost*=1.7;
+update();
+}
+}
+
+/* micro */
+function buyDNA(){
+if(points>=dnaCost){
+points-=dnaCost;
+ps+=10;
+dnaCost*=1.5;
+update();
+}
+}
+
+/* água */
+function buySponge(){
+if(points>=spCost){
+points-=spCost;
+ps+=25;
+spCost*=1.5;
+update();
+}
+}
+
+/* terra */
+function buyFish(){
+if(points>=fishCost){
+points-=fishCost;
+ps+=80;
+fishCost*=1.5;
+update();
+}
+}
+
+/* gatos */
+function buyCat(){
+if(points>=catCost){
+points-=catCost;
+ps+=300;
+catCost*=2;
+update();
+}
+}
+
+/* loop seguro */
+setInterval(()=>{
+points+=ps;
+update();
+},1000);
+
+/* update seguro */
+function update(){
+document.getElementById("points").innerText=Math.floor(points);
+document.getElementById("ps").innerText=ps;
+}
+
+update();
+</script>
+
+</body>
+</html>
